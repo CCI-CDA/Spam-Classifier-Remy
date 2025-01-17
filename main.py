@@ -9,6 +9,7 @@ from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 import os
 import sqlite3
+import bcrypt
 
 #Initialise pandas pour qu'il puisse convertir le fichier en liste utilisable avec label et message en clé
 df = pd.read_csv('data/SMSSpamCollection.txt', sep='\t', header=None, names=['label', 'message'])
@@ -17,8 +18,6 @@ app = FastAPI()
 
 db_name = os.getenv("DB_NAME","spam_classifier.db")
 con = sqlite3.connect(db_name,check_same_thread=False)
-
-
 
 
 #Fonction qui permet de détecté les spam j'ai mis une liste de mot assez bateau

@@ -4,27 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spam_Classifier</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <a href="/history"> Historique </a>
+    <nav>
+        <a href="/history">Historique</a>
+    </nav>
     <br>
     <br>
-    <form method="get" action="/check"> 
-
-        <Label for="user"> User :  </Label>
-        <input type="text" name="user" required/>
+    <form method="get" action="/check">
+        <label for="user">User :</label>
+        <input type="text" name="user" />
         <br>
         <br>
-     <!--  <Label for="password"> Password :  </Label>
-        <input type="password" name="password" required/>--> 
+        <label for="message">Message :</label>
+        <input type="text" name="message" />
         <br>
         <br>
-        <Label for="message"> Message :  </Label>
-        <input type="text" name="message" required/>
-        <br>
-        <br>
-        <input type="submit" value="Validé"/> 
+        <input type="submit" value="Valider" />
     </form>
 </body>
 </html>
