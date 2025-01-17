@@ -20,6 +20,9 @@
 ```
 
 ```bash
+#Création de la BDD
+
+python spamdb.py
 
 ```
 
