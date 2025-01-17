@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History</title>
+</head>
+<body>
+
+    <a href="/">Retour</a>
+
+    <p> History </p>
+    {% for data in result %}
+    <div> {{ data[4] }} : <b>{{data[3]}} </b>  {{data[2]}} de {{data[6]}} </div>
+    {% endfor %}
+    <p> Ham = Message non spam/Spam = Message Spam si le message contiens ['free', 'win', 'cash', 'prize', 'call now', 'urgent'] </p>
+</body>
+</html>
