@@ -38,19 +38,43 @@ def read_root(request: Request):
 
 #Permet de tester les messages
 @app.get("/check", response_class=HTMLResponse)
-def check_message(request: Request, message: str,user:str):
-    result = classify_message(message)
+def check_message(request: Request, message: str, user: str):
     cursor = con.cursor()
-    cursor.execute("INSERT OR IGNORE INTO users(username,password,quota) VALUES (?,?,?)",(user,None,0))
-    res = cursor.execute("""
-        SELECT id FROM users where username = ?
-    """,[user]) 
+    
+    # Vérifie si l'utilisateur existe et récupère ses informations
+    cursor.execute("INSERT OR IGNORE INTO users(username, password, quota) VALUES (?, ?, ?)", (user, None, 10))  # Initial quota: 10
+    con.commit()
+    user_data = cursor.execute("SELECT id, quota FROM users WHERE username = ?", (user,)).fetchone()
 
+    user_id, quota = user_data
+    
+    # Vérifie le quota
+    if quota <= 0:
+        # Redirection vers /check avec un message d'erreur
+        return templates.TemplateResponse(
+            "check.html",
+            {
+                "request": request,
+                "message": "",
+                "classification": "",
+                "error": "Quota exceeded. Please contact support or wait for a reset.",
+            },
+        )
+
+    
+    # Classifie le message
+    result = classify_message(message)
+    
+    # Insère la prédiction dans la base de données
     cursor.execute("""
         INSERT INTO predictions (user_id, message, classification)
         VALUES (?, ?, ?)
-    """, (res.fetchone()[0], message, result)) 
-    con.commit()   
+    """, (user_id, message, result))
+    
+    # Réduit le quota de l'utilisateur
+    cursor.execute("UPDATE users SET quota = quota - 1 WHERE id = ?", (user_id,))
+    con.commit()
+    
     return templates.TemplateResponse(
         "check.html", {"request": request, "message": message, "classification": result}
     )

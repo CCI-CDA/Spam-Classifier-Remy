@@ -8,9 +8,16 @@
 <body>
 
     <a href="/">Retour</a>
+    
+    {% if error %}
+    <p style="color: red;"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+    
+    {% if message %}
     <p><strong>Message:</strong> {{ message }}</p>
     <br>
-    <br>
     <p><strong>Classification:</strong> {{ classification }}</p>
+    {% endif %}
+    
 </body>
 </html>
